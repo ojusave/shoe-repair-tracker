@@ -18,11 +18,26 @@ from app.sms import (
     send_sms,
 )
 
+from app.render_urls import (
+    GITHUB_REPO_URL,
+    deploy_to_render_url,
+    render_signup_url_with_utms,
+)
+
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Shoe Repair Tracker")
 templates = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
+templates.env.globals.update(
+    {
+        "github_repo_url": GITHUB_REPO_URL,
+        "deploy_to_render_url": deploy_to_render_url(),
+        "signup_navbar_url": render_signup_url_with_utms("navbar_button"),
+        "signup_hero_url": render_signup_url_with_utms("hero_cta"),
+        "signup_footer_url": render_signup_url_with_utms("footer_link"),
+    }
+)
 
 STATUS_LABELS = {
     "received": "Received",

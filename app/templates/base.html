@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Repair Tracker{% endblock %} — {{ store_name }}</title>
+  <link rel="icon" href="https://render.com/icon.svg" type="image/svg+xml">
   <style>
     * { box-sizing: border-box; }
     body {
@@ -14,26 +15,84 @@
       color: #18181b;
       line-height: 1.5;
       font-size: 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     header {
       background: #18181b;
       color: #fff;
       padding: 1rem 1.25rem;
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 0.75rem;
     }
-    header a { color: #fff; text-decoration: none; font-weight: 600; }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .brand img { display: block; }
     header nav a {
-      margin-left: 1rem;
+      color: #fff;
+      text-decoration: none;
       font-weight: 500;
       opacity: 0.9;
+      margin-left: 1rem;
     }
-    main { padding: 1rem 1.25rem 2rem; max-width: 960px; margin: 0 auto; }
+    .header-cta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .signup-link {
+      display: inline-block;
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      background: #3d3d43;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .deploy-link img { display: block; height: 32px; width: auto; }
+    main { padding: 1rem 1.25rem 2rem; max-width: 960px; margin: 0 auto; width: 100%; flex: 1; }
+    footer {
+      border-top: 1px solid #e4e4e7;
+      padding: 1rem 1.25rem 1.5rem;
+      background: #fff;
+      color: #71717a;
+      font-size: 0.9rem;
+    }
+    .footer-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      align-items: center;
+    }
+    .footer-inner a { color: #2563eb; text-decoration: none; font-weight: 500; }
     h1 { font-size: 1.5rem; margin: 0 0 1rem; }
     h2 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
     .btn {
       display: inline-block;
       padding: 0.75rem 1.25rem;
@@ -107,15 +166,33 @@
 </head>
 <body>
   <header>
-    <a href="/">{{ store_name }} — Repairs</a>
-    <nav>
-      <a href="/">Dashboard</a>
-      <a href="/tickets/new">New ticket</a>
-      <a href="/history">History</a>
-    </nav>
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <img src="https://render.com/icon.svg" alt="" width="22" height="22">
+        <span>{{ store_name }} — Repairs</span>
+      </a>
+      <div class="header-cta">
+        <nav>
+          <a href="/">Dashboard</a>
+          <a href="/tickets/new">New ticket</a>
+          <a href="/history">History</a>
+        </nav>
+        <a class="signup-link" href="{{ signup_navbar_url }}" target="_blank" rel="noopener noreferrer">Sign up on Render</a>
+        <a class="deploy-link" href="{{ deploy_to_render_url }}" target="_blank" rel="noopener noreferrer">
+          <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
+        </a>
+      </div>
+    </div>
   </header>
   <main>
     {% block content %}{% endblock %}
   </main>
+  <footer>
+    <div class="footer-inner">
+      <a href="{{ github_repo_url }}" target="_blank" rel="noopener noreferrer">GitHub repository</a>
+      <a href="{{ signup_footer_url }}" target="_blank" rel="noopener noreferrer">Sign up on Render</a>
+      <span>Powered by <a href="https://render.com/" target="_blank" rel="noopener noreferrer">Render</a></span>
+    </div>
+  </footer>
 </body>
 </html>
