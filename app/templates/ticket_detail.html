@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Ticket #{{ ticket.id }}{% endblock %}
+{% block content %}
+<h1>#{{ ticket.id }} — {{ ticket.customer_name }}</h1>
+<p>
+  <span class="badge badge-{{ ticket.status }}">{{ status_labels[ticket.status] }}</span>
+  {% if ticket.due_date < today and ticket.status not in ('ready', 'picked_up') %}
+  <span class="overdue-label">OVERDUE</span>
+  {% endif %}
+</p>
+
+<div class="card">
+  <p><strong>Phone:</strong> {{ ticket.customer_phone }}</p>
+  <p><strong>Item:</strong> {{ ticket.item_description }}</p>
+  <p><strong>Work:</strong> {{ ticket.work_description }}</p>
+  <p class="meta">Intake {{ ticket.intake_date.strftime('%b %d, %Y') }} · Due {{ ticket.due_date.strftime('%b %d, %Y') }}</p>
+  {% if ticket.ready_at %}
+  <p class="meta">Ready since {{ ticket.ready_at.strftime('%b %d, %Y') }}</p>
+  {% endif %}
+  {% if ticket.last_reminder_at %}
+  <p class="meta">Last reminder {{ ticket.last_reminder_at.strftime('%b %d, %Y') }}</p>
+  {% endif %}
+  {% if ticket.picked_up_at %}
+  <p class="meta">Picked up {{ ticket.picked_up_at.strftime('%b %d, %Y') }}</p>
+  {% endif %}
+</div>
+
+<div class="actions">
+  {% if ticket.status != 'ready' and ticket.status != 'picked_up' %}
+  <form method="post" action="/tickets/{{ ticket.id }}/ready">
+    <button type="submit" class="btn btn-success">Mark ready (texts customer)</button>
+  </form>
+  {% endif %}
+  {% if ticket.status == 'ready' %}
+  <form method="post" action="/tickets/{{ ticket.id }}/pickup">
+    <button type="submit" class="btn btn-primary">Mark picked up</button>
+  </form>
+  <form method="post" action="/tickets/{{ ticket.id }}/remind">
+    <button type="submit" class="btn btn-warning">Send reminder text</button>
+  </form>
+  {% endif %}
+</div>
+
+<h2>Edit</h2>
+<form method="post" action="/tickets/{{ ticket.id }}">
+  <label for="customer_name">Customer name</label>
+  <input id="customer_name" name="customer_name" required value="{{ ticket.customer_name }}">
+
+  <label for="customer_phone">Phone</label>
+  <input id="customer_phone" name="customer_phone" type="tel" required value="{{ ticket.customer_phone }}">
+
+  <label for="item_description">Item</label>
+  <input id="item_description" name="item_description" required value="{{ ticket.item_description }}">
+
+  <label for="work_description">Work needed</label>
+  <textarea id="work_description" name="work_description" required>{{ ticket.work_description }}</textarea>
+
+  <label for="due_date">Due date</label>
+  <input id="due_date" name="due_date" type="date" required value="{{ ticket.due_date.isoformat() }}">
+
+  <label for="status">Status</label>
+  <select id="status" name="status">
+    {% for value, label in status_labels.items() %}
+    <option value="{{ value }}" {% if ticket.status == value %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit" class="btn btn-primary btn-block">Save changes</button>
+</form>
+{% endblock %}

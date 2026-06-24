@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Repair Tracker{% endblock %} — {{ store_name }}</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f5;
+      color: #18181b;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+    header {
+      background: #18181b;
+      color: #fff;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    header a { color: #fff; text-decoration: none; font-weight: 600; }
+    header nav a {
+      margin-left: 1rem;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+    main { padding: 1rem 1.25rem 2rem; max-width: 960px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin: 0 0 1rem; }
+    h2 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      text-align: center;
+      min-height: 48px;
+      line-height: 1.2;
+    }
+    .btn-primary { background: #2563eb; color: #fff; }
+    .btn-success { background: #16a34a; color: #fff; }
+    .btn-secondary { background: #71717a; color: #fff; }
+    .btn-warning { background: #d97706; color: #fff; }
+    .btn-block { display: block; width: 100%; margin-top: 0.5rem; }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .card.overdue { border-left: 4px solid #dc2626; }
+    .card.ready { border-left: 4px solid #16a34a; background: #f0fdf4; }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .badge-received { background: #dbeafe; color: #1d4ed8; }
+    .badge-in_progress { background: #fef3c7; color: #b45309; }
+    .badge-ready { background: #dcfce7; color: #15803d; }
+    .badge-picked_up { background: #e4e4e7; color: #52525b; }
+    .meta { color: #71717a; font-size: 0.9rem; margin: 0.25rem 0; }
+    .overdue-label { color: #dc2626; font-weight: 700; font-size: 0.85rem; }
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 0.75rem 0 0.35rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #d4d4d8;
+      border-radius: 8px;
+      min-height: 48px;
+    }
+    textarea { min-height: 100px; resize: vertical; }
+    form.inline { display: inline; }
+    details { margin-top: 1.5rem; }
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      padding: 0.5rem 0;
+      min-height: 44px;
+    }
+    .actions { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+    @media (min-width: 600px) {
+      .actions { flex-direction: row; flex-wrap: wrap; }
+      .btn-block { display: inline-block; width: auto; margin-top: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">{{ store_name }} — Repairs</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/tickets/new">New ticket</a>
+      <a href="/history">History</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

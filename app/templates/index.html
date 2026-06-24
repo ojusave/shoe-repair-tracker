@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Active repairs</h1>
+<p><a class="btn btn-primary" href="/tickets/new">+ New ticket</a></p>
+
+{% if active_tickets %}
+  {% for ticket in active_tickets %}
+  <div class="card {% if ticket.due_date < today %}overdue{% endif %} {% if ticket.status == 'ready' %}ready{% endif %}">
+    <div>
+      <strong>#{{ ticket.id }} — {{ ticket.customer_name }}</strong>
+      <span class="badge badge-{{ ticket.status }}">{{ status_labels[ticket.status] }}</span>
+    </div>
+    <p class="meta">{{ ticket.item_description }}</p>
+    <p class="meta">Due {{ ticket.due_date.strftime('%b %d, %Y') }}
+      {% if ticket.due_date < today %}<span class="overdue-label"> — OVERDUE</span>{% endif %}
+    </p>
+    <div class="actions">
+      <a class="btn btn-secondary" href="/tickets/{{ ticket.id }}">View / edit</a>
+      {% if ticket.status != 'ready' %}
+      <form class="inline" method="post" action="/tickets/{{ ticket.id }}/ready">
+        <button type="submit" class="btn btn-success">Mark ready (texts customer)</button>
+      </form>
+      {% endif %}
+      {% if ticket.status == 'ready' %}
+      <form class="inline" method="post" action="/tickets/{{ ticket.id }}/pickup">
+        <button type="submit" class="btn btn-primary">Mark picked up</button>
+      </form>
+      <form class="inline" method="post" action="/tickets/{{ ticket.id }}/remind">
+        <button type="submit" class="btn btn-warning">Send reminder text</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <p class="meta">No active tickets. <a href="/tickets/new">Create one</a>.</p>
+{% endif %}
+
+{% if picked_up_tickets %}
+<details>
+  <summary>Recently picked up ({{ picked_up_tickets|length }})</summary>
+  {% for ticket in picked_up_tickets[:10] %}
+  <div class="card">
+    <strong>#{{ ticket.id }} — {{ ticket.customer_name }}</strong>
+    <span class="badge badge-picked_up">Picked up</span>
+    <p class="meta">{{ ticket.item_description }}</p>
+    <p class="meta">Picked up {{ ticket.picked_up_at.strftime('%b %d, %Y') if ticket.picked_up_at else '—' }}</p>
+    <a class="btn btn-secondary" href="/tickets/{{ ticket.id }}">View</a>
+  </div>
+  {% endfor %}
+  {% if picked_up_tickets|length > 10 %}
+  <p class="meta"><a href="/history">See full history</a></p>
+  {% endif %}
+</details>
+{% endif %}
+{% endblock %}

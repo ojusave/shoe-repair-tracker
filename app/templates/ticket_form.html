@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{% if ticket %}Edit ticket #{{ ticket.id }}{% else %}New ticket{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if ticket %}Edit ticket #{{ ticket.id }}{% else %}New repair ticket{% endif %}</h1>
+<p><a href="/">← Back to dashboard</a></p>
+
+<form method="post" action="{% if ticket %}/tickets/{{ ticket.id }}{% else %}/tickets{% endif %}">
+  <label for="customer_name">Customer name</label>
+  <input id="customer_name" name="customer_name" required
+         value="{{ ticket.customer_name if ticket else '' }}">
+
+  <label for="customer_phone">Phone (10 digits or +1…)</label>
+  <input id="customer_phone" name="customer_phone" type="tel" required
+         placeholder="5875551234"
+         value="{{ ticket.customer_phone if ticket else '' }}">
+
+  <label for="item_description">Item</label>
+  <input id="item_description" name="item_description" required
+         placeholder="brown leather Chelsea boots"
+         value="{{ ticket.item_description if ticket else '' }}">
+
+  <label for="work_description">Work needed</label>
+  <textarea id="work_description" name="work_description" required
+            placeholder="Replace heel caps, polish">{{ ticket.work_description if ticket else '' }}</textarea>
+
+  <label for="due_date">Due date</label>
+  <input id="due_date" name="due_date" type="date" required
+         value="{{ ticket.due_date.isoformat() if ticket else '' }}">
+
+  {% if ticket %}
+  <label for="status">Status</label>
+  <select id="status" name="status">
+    {% for value, label in status_labels.items() %}
+    <option value="{{ value }}" {% if ticket.status == value %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  {% endif %}
+
+  <button type="submit" class="btn btn-primary btn-block">
+    {% if ticket %}Save changes{% else %}Create ticket{% endif %}
+  </button>
+</form>
+{% endblock %}
