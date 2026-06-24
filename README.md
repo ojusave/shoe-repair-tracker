@@ -25,12 +25,16 @@ Set these in the Render Dashboard after deploy (or during Blueprint setup when p
 
 `DATABASE_URL` is wired automatically from the managed Postgres instance.
 
-Optional reminder tuning (cron only, defaults shown):
+Twilio and store name are **optional at deploy time**. Leave them unset and the app still runs: SMS is logged as `[SMS skipped]`, and messages use the default store name `the shop`. Add Twilio vars later in the Dashboard when you are ready to send texts.
 
-| Variable | Default |
+Optional env vars (set in Dashboard when ready):
+
+| Variable | Purpose |
 |---|---|
-| `REMINDER_AFTER_DAYS` | `3` |
-| `REMINDER_INTERVAL_DAYS` | `3` |
+| `STORE_NAME` | Shop name in SMS (default: `the shop`) |
+| `TWILIO_ACCOUNT_SID` | Twilio account SID |
+| `TWILIO_AUTH_TOKEN` | Twilio auth token |
+| `TWILIO_FROM_NUMBER` | Twilio sender number (E.164) |
 
 ## Canadian SMS note
 

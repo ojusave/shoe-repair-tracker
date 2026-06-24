@@ -10,14 +10,6 @@ services:
         fromDatabase:
           name: repair-db
           property: connectionString
-      - key: STORE_NAME
-        sync: false
-      - key: TWILIO_ACCOUNT_SID
-        sync: false
-      - key: TWILIO_AUTH_TOKEN
-        sync: false
-      - key: TWILIO_FROM_NUMBER
-        sync: false
 
   - type: cron
     name: repair-reminders
@@ -30,14 +22,6 @@ services:
         fromDatabase:
           name: repair-db
           property: connectionString
-      - key: STORE_NAME
-        sync: false
-      - key: TWILIO_ACCOUNT_SID
-        sync: false
-      - key: TWILIO_AUTH_TOKEN
-        sync: false
-      - key: TWILIO_FROM_NUMBER
-        sync: false
       - key: REMINDER_AFTER_DAYS
         value: "3"
       - key: REMINDER_INTERVAL_DAYS
