@@ -12,22 +12,11 @@ The `render.yaml` Blueprint creates three resources:
 - **repair-reminders** — daily cron job for pickup reminder texts
 - **repair-db** — managed PostgreSQL shared by both services
 
-## Required environment variables
-
-Set these in the Render Dashboard after deploy (or during Blueprint setup when prompted):
-
-| Variable | Purpose |
-|---|---|
-| `STORE_NAME` | Shop name inserted into SMS messages |
-| `TWILIO_ACCOUNT_SID` | Twilio account SID |
-| `TWILIO_AUTH_TOKEN` | Twilio auth token |
-| `TWILIO_FROM_NUMBER` | Twilio sender number (E.164) |
+## Environment variables
 
 `DATABASE_URL` is wired automatically from the managed Postgres instance.
 
-Twilio and store name are **optional at deploy time**. Leave them unset and the app still runs: SMS is logged as `[SMS skipped]`, and messages use the default store name `the shop`. Add Twilio vars later in the Dashboard when you are ready to send texts.
-
-Optional env vars (set in Dashboard when ready):
+Twilio and store name are **optional at deploy time**. Leave them blank: the app still runs, SMS is logged as `[SMS skipped]`, and messages use the default store name `the shop`. Add these in the Dashboard later when you are ready:
 
 | Variable | Purpose |
 |---|---|
@@ -35,6 +24,13 @@ Optional env vars (set in Dashboard when ready):
 | `TWILIO_ACCOUNT_SID` | Twilio account SID |
 | `TWILIO_AUTH_TOKEN` | Twilio auth token |
 | `TWILIO_FROM_NUMBER` | Twilio sender number (E.164) |
+
+Reminder tuning (cron, defaults in `render.yaml`):
+
+| Variable | Default |
+|---|---|
+| `REMINDER_AFTER_DAYS` | `3` |
+| `REMINDER_INTERVAL_DAYS` | `3` |
 
 ## Canadian SMS note
 
